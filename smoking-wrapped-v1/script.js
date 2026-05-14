@@ -14,6 +14,7 @@ const labels = {
 
 const output = {
   yearlyTotal: document.querySelector("#yearly-total"),
+  heroBorrowedTotal: document.querySelector("#hero-borrowed-total"),
   borrowedTotal: document.querySelector("#borrowed-total"),
   packTotal: document.querySelector("#pack-total"),
   moneyTotal: document.querySelector("#money-total"),
@@ -109,6 +110,7 @@ function update() {
   const identity = selectedIdentity();
 
   output.yearlyTotal.textContent = numberFormat(yearlyTotal);
+  output.heroBorrowedTotal.textContent = numberFormat(borrowedTotal);
   output.borrowedTotal.textContent = numberFormat(borrowedTotal);
   output.packTotal.textContent = numberFormat(packTotal);
   output.moneyTotal.textContent = moneyFormat(moneyTotal);
