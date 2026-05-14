@@ -20,6 +20,7 @@ body {
   background: var(--black);
   color: var(--cream);
   font-family: "DM Sans", sans-serif;
+  overflow-x: hidden;
 }
 
 button,
@@ -361,6 +362,46 @@ input[type="range"] {
   opacity: 0.4;
 }
 
+.main-card::after {
+  inset: -18% -9% auto auto;
+  width: 44%;
+  border-radius: 48% 52% 42% 58%;
+  transform: rotate(-12deg);
+}
+
+.borrowed-card::after {
+  inset: auto auto -26% -18%;
+  width: 78%;
+  transform: rotate(18deg);
+}
+
+.pack-card::after {
+  inset: 18px -24% auto auto;
+  width: 72%;
+  border-radius: 0;
+  transform: rotate(8deg);
+}
+
+.money-card::after {
+  inset: auto -16% -20% auto;
+  width: 54%;
+  border-radius: 44% 56% 38% 62%;
+  transform: rotate(24deg);
+}
+
+.minutes-card::after {
+  inset: -22% auto auto -18%;
+  width: 70%;
+  transform: rotate(-18deg);
+}
+
+.closer-card::after {
+  inset: auto 7% -45% auto;
+  width: 34%;
+  border-radius: 0 999px 999px 0;
+  transform: rotate(-7deg);
+}
+
 .main-card {
   grid-column: span 7;
   background: var(--green);
@@ -489,6 +530,7 @@ input[type="range"] {
 
   .calculator {
     transform: none;
+    width: 100%;
   }
 
   .brand-row {
@@ -507,23 +549,177 @@ input[type="range"] {
 }
 
 @media (max-width: 520px) {
+  .app-shell {
+    overflow: hidden;
+  }
+
   .hero-panel {
     min-height: auto;
+    padding: 22px 18px 28px;
+    background:
+      radial-gradient(circle at 78% 14%, rgba(255, 79, 154, 0.72) 0 18%, transparent 34%),
+      linear-gradient(125deg, rgba(5, 5, 5, 0.98) 0 58%, rgba(30, 215, 96, 0.9) 58% 82%, #fff06a 82% 100%),
+      #050505;
+  }
+
+  .hero-panel::before {
+    background-size: 24px 24px;
+    mask-image: none;
+    opacity: 0.78;
+  }
+
+  .hero-panel::after {
+    right: -70px;
+    top: 126px;
+    width: 180px;
+    opacity: 0.72;
+    background-position: 0 0, 12px 12px;
+    background-size: 24px 24px;
+  }
+
+  .orbit-one {
+    width: 180px;
+    height: 92px;
+    right: -62px;
+    top: 310px;
+  }
+
+  .orbit-two {
+    width: 180px;
+    height: 360px;
+    left: -132px;
+    top: 300px;
+  }
+
+  .orbit-three {
+    display: none;
+  }
+
+  .brand-row {
+    max-width: 100%;
+    gap: 10px;
+    padding: 8px 12px 8px 9px;
+    font-size: clamp(1.05rem, 6vw, 1.55rem);
+    line-height: 1;
+    border-color: rgba(245, 241, 219, 0.48);
+  }
+
+  .pulse-dot {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+  }
+
+  .hero-grid {
+    gap: 28px;
+    padding-top: 64px;
+  }
+
+  .intro-copy {
+    max-width: 100%;
+  }
+
+  .kicker {
+    max-width: 100%;
+    padding: 7px 9px;
+    font-size: clamp(0.9rem, 4.2vw, 1rem);
+    line-height: 1.08;
+    box-shadow: 4px 4px 0 var(--black);
   }
 
   h1 {
-    font-size: clamp(3.4rem, 18vw, 5.7rem);
+    max-width: 100%;
+    margin-top: 24px;
+    font-size: clamp(3.35rem, 17vw, 5.15rem);
+    line-height: 0.84;
+    overflow-wrap: anywhere;
+  }
+
+  h1 span:nth-child(3) {
+    margin-top: 8px;
+    padding: 0.06em 0.1em 0.09em;
+    box-shadow: 7px 7px 0 var(--cream);
+  }
+
+  .lede {
+    max-width: 100%;
+    margin-top: 28px;
+    font-size: 1.08rem;
+    line-height: 1.15;
+  }
+
+  .hero-badges {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-top: 22px;
+  }
+
+  .hero-badges span {
+    width: fit-content;
+    max-width: 100%;
+    padding: 8px 12px;
+    font-size: 0.92rem;
+    line-height: 1;
+  }
+
+  .calculator {
+    gap: 12px;
+    width: 100%;
+    padding: 12px;
+    border-width: 3px;
+    box-shadow: 8px 8px 0 var(--black);
+  }
+
+  .control-block {
+    padding: 15px 12px;
+  }
+
+  .control-block label {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .control-block label span {
+    min-width: 0;
+    font-size: 1rem;
+    line-height: 1.05;
+  }
+
+  .control-block strong {
+    font-size: 2.1rem;
+    line-height: 0.86;
+  }
+
+  .identity-check {
+    padding: 12px;
+  }
+
+  .identity-check legend {
+    max-width: calc(100% - 20px);
+    font-size: 1rem;
+    line-height: 1.05;
   }
 
   .results-panel {
     gap: 12px;
+    padding: 18px;
   }
 
   .wrapped-card {
     min-height: 230px;
+    padding: 20px;
   }
 
   .big-number {
     font-size: clamp(5.5rem, 31vw, 9rem);
+  }
+
+  .stat-pair strong {
+    font-size: clamp(4rem, 25vw, 6.8rem);
+  }
+
+  .closer-card h2 {
+    font-size: clamp(2.75rem, 15vw, 5.2rem);
   }
 }
