@@ -111,7 +111,7 @@
 
       .hero {
         display: grid;
-        grid-template-columns: minmax(0, 1.18fr) minmax(300px, 0.82fr);
+        grid-template-columns: minmax(760px, 1fr) minmax(300px, 420px);
         gap: clamp(1.5rem, 4vw, 4rem);
         align-items: end;
         min-height: 74vh;
@@ -129,8 +129,8 @@
       }
 
       h1 {
-        max-width: 870px;
-        font-size: clamp(3.4rem, 8.6vw, 7.9rem);
+        max-width: 1120px;
+        font-size: clamp(3.2rem, 6.3vw, 6.9rem);
       }
 
       h2 {
@@ -153,6 +153,8 @@
       }
 
       .hero-card {
+        justify-self: end;
+        width: min(100%, 460px);
         padding: 1.2rem;
         color: var(--white);
         background: var(--red);
@@ -411,6 +413,16 @@
         display: flex;
         justify-content: space-between;
         gap: 1rem;
+      }
+
+      @media (max-width: 1100px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-card {
+          justify-self: start;
+        }
       }
 
       @media (max-width: 920px) {
