@@ -111,11 +111,19 @@
 
       .hero {
         display: grid;
-        grid-template-columns: minmax(760px, 1fr) minmax(300px, 420px);
-        gap: clamp(1.5rem, 4vw, 4rem);
-        align-items: end;
+        grid-template-columns: minmax(0, 1fr) minmax(360px, 460px);
+        gap: clamp(1.5rem, 3.6vw, 3.4rem);
+        align-items: start;
         min-height: 74vh;
         padding: clamp(2.5rem, 6vw, 5.6rem) 0 2.5rem;
+      }
+
+      .hero-title {
+        grid-column: 1 / -1;
+      }
+
+      .hero-lower {
+        max-width: 740px;
       }
 
       h1,
@@ -129,8 +137,8 @@
       }
 
       h1 {
-        max-width: 1120px;
-        font-size: clamp(3.2rem, 6.3vw, 6.9rem);
+        max-width: 100%;
+        font-size: clamp(3.2rem, 6vw, 6.55rem);
       }
 
       h2 {
@@ -154,8 +162,8 @@
 
       .hero-card {
         justify-self: end;
-        width: min(100%, 460px);
-        padding: 1.2rem;
+        width: min(100%, 520px);
+        padding: clamp(1.2rem, 2.4vw, 1.7rem);
         color: var(--white);
         background: var(--red);
         border: 3px solid var(--navy);
@@ -165,7 +173,7 @@
       .hero-card strong {
         display: block;
         margin-top: 0.4rem;
-        font-size: clamp(2.8rem, 6vw, 5rem);
+        font-size: clamp(2.8rem, 4.5vw, 4.8rem);
         line-height: 0.95;
       }
 
@@ -533,9 +541,11 @@
 
     <main>
       <section class="hero wrap">
-        <div>
+        <div class="hero-title">
           <p class="eyebrow hero-eyebrow">Campaign microsite proposal</p>
           <h1>How we can turn the smoking calculator into a public campaign tool.</h1>
+        </div>
+        <div class="hero-lower">
           <p class="lede">
             The prototype already proves the idea. The next step is making it reliable, secure, on-brand, and ready for real users across web ads, social traffic, and in-person iPad use.
           </p>
