@@ -1,0 +1,770 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Smoking Ends Here | Prototype to Campaign Plan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+      @font-face {
+        font-family: "Effra Trial";
+        src: local("Effra Trial");
+      }
+
+      :root {
+        --navy: #201747;
+        --white: #ffffff;
+        --off-white: #e5e5e5;
+        --charcoal: #5f616d;
+        --red: #fe2458;
+        --yellow: #f1e63f;
+        --orange: #ff7d3a;
+        --green: #2af22f;
+        --blue: #0b1ee4;
+        --cream: #fbf7ef;
+        --ink: #130d2f;
+        --line: rgba(32, 23, 71, 0.16);
+        --shadow: 0 18px 50px rgba(32, 23, 71, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--cream);
+        font-family: "Effra Trial", Mulish, "Segoe UI", system-ui, sans-serif;
+        font-weight: 300;
+        line-height: 1.45;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(32, 23, 71, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(32, 23, 71, 0.035) 1px, transparent 1px);
+        background-size: 34px 34px, 34px 34px;
+        z-index: -1;
+      }
+
+      a {
+        color: inherit;
+        text-decoration-thickness: 0.08em;
+        text-underline-offset: 0.16em;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.9rem clamp(1rem, 3vw, 2.2rem);
+        color: var(--white);
+        background: rgba(32, 23, 71, 0.96);
+        border-bottom: 4px solid var(--yellow);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        min-width: 0;
+      }
+
+      .logo img {
+        width: 150px;
+        height: auto;
+        display: block;
+      }
+
+      .eyebrow {
+        margin: 0;
+        color: var(--yellow);
+        font-size: 0.75rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .hero-eyebrow {
+        color: var(--red);
+      }
+
+      .wrap {
+        width: min(1180px, calc(100% - 2rem));
+        margin: 0 auto;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.18fr) minmax(300px, 0.82fr);
+        gap: clamp(1.5rem, 4vw, 4rem);
+        align-items: end;
+        min-height: 74vh;
+        padding: clamp(2.5rem, 6vw, 5.6rem) 0 2.5rem;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        color: var(--navy);
+        font-weight: 900;
+        line-height: 0.95;
+        letter-spacing: 0;
+      }
+
+      h1 {
+        max-width: 870px;
+        font-size: clamp(3.4rem, 8.6vw, 7.9rem);
+      }
+
+      h2 {
+        font-size: clamp(2.2rem, 5vw, 4.6rem);
+      }
+
+      h3 {
+        font-size: clamp(1.4rem, 2.3vw, 2.2rem);
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .lede {
+        max-width: 720px;
+        margin-top: 1.6rem;
+        font-size: clamp(1.25rem, 2.4vw, 2rem);
+        color: var(--navy);
+      }
+
+      .hero-card {
+        padding: 1.2rem;
+        color: var(--white);
+        background: var(--red);
+        border: 3px solid var(--navy);
+        box-shadow: 12px 12px 0 var(--navy);
+      }
+
+      .hero-card strong {
+        display: block;
+        margin-top: 0.4rem;
+        font-size: clamp(2.8rem, 6vw, 5rem);
+        line-height: 0.95;
+      }
+
+      .hero-card span {
+        color: var(--yellow);
+        font-weight: 900;
+      }
+
+      section {
+        padding: clamp(2.6rem, 6vw, 5.8rem) 0;
+      }
+
+      .section-head {
+        display: grid;
+        grid-template-columns: minmax(0, 0.8fr) minmax(280px, 0.55fr);
+        gap: 1.5rem;
+        align-items: end;
+        margin-bottom: 1.4rem;
+      }
+
+      .section-note {
+        color: var(--charcoal);
+        font-size: 1.05rem;
+      }
+
+      .grid {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .grid.two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .grid.three {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .panel {
+        padding: clamp(1.1rem, 2.5vw, 1.65rem);
+        background: var(--white);
+        border: 2px solid var(--navy);
+        box-shadow: var(--shadow);
+      }
+
+      .panel.red {
+        color: var(--white);
+        background: var(--red);
+      }
+
+      .panel.navy {
+        color: var(--white);
+        background: var(--navy);
+      }
+
+      .panel.yellow {
+        background: var(--yellow);
+      }
+
+      .panel h3,
+      .panel.red h3,
+      .panel.navy h3 {
+        margin-bottom: 0.7rem;
+        color: inherit;
+      }
+
+      .tag {
+        display: inline-flex;
+        width: fit-content;
+        margin-bottom: 0.8rem;
+        padding: 0.28rem 0.55rem;
+        color: var(--navy);
+        background: var(--yellow);
+        border: 2px solid var(--navy);
+        font-size: 0.78rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .decision-list {
+        display: grid;
+        gap: 0.78rem;
+        margin: 1rem 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .decision-list li {
+        display: grid;
+        grid-template-columns: 1.8rem 1fr;
+        gap: 0.72rem;
+        align-items: start;
+      }
+
+      .tick {
+        display: grid;
+        place-items: center;
+        width: 1.8rem;
+        height: 1.8rem;
+        color: var(--navy);
+        background: var(--yellow);
+        border: 2px solid var(--navy);
+        border-radius: 50%;
+        font-weight: 900;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 0.7rem;
+        margin-top: 1.2rem;
+      }
+
+      .flow-step {
+        position: relative;
+        min-height: 180px;
+        padding: 1rem;
+        color: var(--navy);
+        background: var(--white);
+        border: 2px solid var(--navy);
+      }
+
+      .flow-step::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -0.62rem;
+        width: 0.85rem;
+        height: 0.85rem;
+        background: var(--yellow);
+        border-top: 2px solid var(--navy);
+        border-right: 2px solid var(--navy);
+        transform: translateY(-50%) rotate(45deg);
+        z-index: 2;
+      }
+
+      .flow-step:last-child::after {
+        display: none;
+      }
+
+      .flow-step b {
+        display: block;
+        margin-bottom: 0.7rem;
+        color: var(--red);
+        font-size: 2.2rem;
+        line-height: 1;
+      }
+
+      .compare {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+        background: var(--white);
+        border: 2px solid var(--navy);
+      }
+
+      .compare th,
+      .compare td {
+        padding: 0.9rem;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .compare th {
+        color: var(--white);
+        background: var(--navy);
+        font-weight: 900;
+      }
+
+      .compare tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .recommended {
+        color: var(--navy);
+        background: rgba(241, 230, 63, 0.38);
+        font-weight: 800;
+      }
+
+      .data-table {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.7rem;
+        margin-top: 1rem;
+      }
+
+      .data-item {
+        padding: 0.85rem;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid var(--line);
+      }
+
+      .data-item strong {
+        display: block;
+        color: var(--navy);
+        font-weight: 900;
+      }
+
+      .timeline {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        border: 2px solid var(--navy);
+        background: var(--white);
+      }
+
+      .day {
+        min-height: 190px;
+        padding: 1rem;
+        border-right: 1px solid var(--line);
+      }
+
+      .day:last-child {
+        border-right: 0;
+      }
+
+      .day b {
+        display: inline-flex;
+        margin-bottom: 0.8rem;
+        padding: 0.24rem 0.5rem;
+        color: var(--navy);
+        background: var(--yellow);
+        border: 2px solid var(--navy);
+        font-size: 0.86rem;
+      }
+
+      .source-list {
+        display: grid;
+        gap: 0.6rem;
+        margin: 1rem 0 0;
+        padding-left: 1.2rem;
+      }
+
+      .source-list li {
+        padding-left: 0.2rem;
+      }
+
+      .footer {
+        padding: 2rem 0 3rem;
+        color: var(--white);
+        background: var(--navy);
+      }
+
+      .footer .wrap {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      @media (max-width: 920px) {
+        .hero,
+        .section-head,
+        .grid.two,
+        .grid.three {
+          grid-template-columns: 1fr;
+        }
+
+        .flow,
+        .timeline {
+          grid-template-columns: 1fr;
+        }
+
+        .flow-step {
+          min-height: auto;
+        }
+
+        .flow-step::after {
+          top: auto;
+          right: 1rem;
+          bottom: -0.62rem;
+          transform: rotate(135deg);
+        }
+
+        .day {
+          min-height: auto;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .data-table {
+          grid-template-columns: 1fr;
+        }
+
+        .topbar {
+          position: static;
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .compare {
+          display: block;
+          max-width: 100%;
+          overflow-x: auto;
+        }
+
+        .compare th,
+        .compare td {
+          min-width: 9rem;
+        }
+      }
+
+      @media print {
+        @page {
+          size: A4;
+          margin: 12mm;
+        }
+
+        * {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        body {
+          background: var(--cream);
+        }
+
+        .topbar {
+          position: static;
+        }
+
+        .wrap {
+          width: 100%;
+        }
+
+        section,
+        .hero {
+          min-height: auto;
+          padding: 1.1cm 0;
+          break-inside: avoid;
+        }
+
+        .panel,
+        .hero-card,
+        .compare,
+        .timeline {
+          box-shadow: none;
+        }
+
+        a {
+          text-decoration: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="logo">
+        <img src="./proposal-assets/influential-white-logo.png" alt="Influential" />
+        <div>
+          <p class="eyebrow">Internal planning note</p>
+          <p>Smoking Ends Here campaign calculator</p>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero wrap">
+        <div>
+          <p class="eyebrow hero-eyebrow">Campaign microsite proposal</p>
+          <h1>How we can turn the smoking calculator into a public campaign tool.</h1>
+          <p class="lede">
+            The prototype already proves the idea. The next step is making it reliable, secure, on-brand, and ready for real users across web ads, social traffic, and in-person iPad use.
+          </p>
+        </div>
+        <aside class="hero-card">
+          <span>Recommendation</span>
+          <strong>Netlify + Supabase</strong>
+          <p>Use GoDaddy for the web address, Netlify to publish the site, and Supabase to safely store the anonymous campaign responses.</p>
+        </aside>
+      </section>
+
+      <section class="wrap">
+        <div class="section-head">
+          <h2>Plain English Version</h2>
+          <p class="section-note">This is the version for the team: what we are making, where it lives, and what still needs deciding.</p>
+        </div>
+        <div class="grid three">
+          <article class="panel red">
+            <span class="tag">What users see</span>
+            <h3>A short interactive calculator</h3>
+            <p>People answer a few simple questions about social smoking. The page shows a personalised yearly total in a bold, shareable campaign style.</p>
+          </article>
+          <article class="panel navy">
+            <span class="tag">What we collect</span>
+            <h3>Anonymous response data</h3>
+            <p>We collect age range and calculator answers so the campaign can report patterns. We avoid names, emails, phone numbers, exact dates of birth, and precise addresses.</p>
+          </article>
+          <article class="panel yellow">
+            <span class="tag">What we need</span>
+            <h3>Owned accounts and sign-off</h3>
+            <p>The project should be hosted from work-owned accounts, with a short privacy notice and agreement on how long data is kept.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="wrap">
+        <div class="section-head">
+          <h2>How It Works</h2>
+          <p class="section-note">The technical setup is intentionally simple. Each part has one clear job.</p>
+        </div>
+        <div class="flow" aria-label="Project flow diagram">
+          <div class="flow-step">
+            <b>1</b>
+            <h3>User opens link</h3>
+            <p>They arrive from Meta ads, organic social, QR code, or an iPad at an event.</p>
+          </div>
+          <div class="flow-step">
+            <b>2</b>
+            <h3>Calculator runs</h3>
+            <p>The page works in the browser, so it is fast and cheap to host.</p>
+          </div>
+          <div class="flow-step">
+            <b>3</b>
+            <h3>User submits</h3>
+            <p>A consent note explains what anonymous information is being saved.</p>
+          </div>
+          <div class="flow-step">
+            <b>4</b>
+            <h3>Supabase stores it</h3>
+            <p>The database stores each response so the team can analyse campaign trends.</p>
+          </div>
+          <div class="flow-step">
+            <b>5</b>
+            <h3>Team reviews stats</h3>
+            <p>We can export CSVs, build simple reports, and compare sources like Meta vs events.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap">
+        <div class="section-head">
+          <h2>Recommended Route</h2>
+          <p class="section-note">The main choices are practical: where the site lives, where the data lives, and what the team needs to agree before launch.</p>
+        </div>
+        <div class="grid two">
+          <article class="panel">
+            <h3>What needs agreeing</h3>
+            <ul class="decision-list">
+              <li><span class="tick">1</span><p><strong>Final name and URL.</strong> “Smoking Wrapped” is useful as a prototype name, but the live campaign should use the agreed campaign wording.</p></li>
+              <li><span class="tick">2</span><p><strong>Data fields.</strong> Confirm exactly what the campaign needs to measure, especially age range and broad location/area.</p></li>
+              <li><span class="tick">3</span><p><strong>Privacy wording.</strong> Agree the short on-page privacy note, retention period, and who is responsible for the data.</p></li>
+              <li><span class="tick">4</span><p><strong>Launch checks.</strong> Confirm the site works properly on mobile, desktop, and the event iPads before paid traffic is sent to it.</p></li>
+            </ul>
+          </article>
+          <article class="panel red">
+            <h3>Suggested setup</h3>
+            <ul class="decision-list">
+              <li><span class="tick">A</span><p><strong>Hosting:</strong> Use Netlify to publish the site and protect the database details behind a secure submission step.</p></li>
+              <li><span class="tick">B</span><p><strong>Database:</strong> Use Supabase to store anonymous campaign responses and export the results for reporting.</p></li>
+              <li><span class="tick">C</span><p><strong>Domain:</strong> Keep GoDaddy for the web address if that is already where the domain is managed. It can point visitors to the Netlify site.</p></li>
+              <li><span class="tick">D</span><p><strong>Records:</strong> Give each response a random submission ID so records can be managed without collecting names or contact details.</p></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="wrap">
+        <div class="section-head">
+          <h2>Vercel Or Netlify?</h2>
+          <p class="section-note">Both would work. The recommendation is based on fit for this project and what is easiest to maintain.</p>
+        </div>
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Estimated cost</th>
+              <th>Plain-English reason</th>
+              <th>Recommendation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Vercel</strong></td>
+              <td>Pro is listed at $20/month plus usage, with developer seats listed at $20/month. For a work campaign, this should be set up as a proper team/business account.</td>
+              <td>It gives us a clean way to publish the site, review changes before they go live, and keep database credentials away from the public page.</td>
+              <td>Still a strong option, especially if the priority is developer workflow.</td>
+            </tr>
+            <tr class="recommended">
+              <td><strong>Netlify</strong></td>
+              <td>Pro is listed at $20/month for unlimited members, plus usage credits.</td>
+              <td>It can do the same core job: host the site, manage custom domains, and handle a secure submission step. The unlimited members are useful for handover and wider team visibility.</td>
+              <td><strong>Use this.</strong> It is the better fit if several team members may need access now or after handover.</td>
+            </tr>
+            <tr>
+              <td><strong>GitHub Pages</strong></td>
+              <td>Usually no extra hosting cost for a public static site.</td>
+              <td>Good for showing prototypes, but less suitable once the site needs a safer way to submit data into Supabase.</td>
+              <td>Fine for prototypes, not my first choice for launch.</td>
+            </tr>
+            <tr>
+              <td><strong>GoDaddy hosting</strong></td>
+              <td>The team may already be paying for GoDaddy domain services.</td>
+              <td>Useful for owning the web address, but it does not need to host the campaign site itself.</td>
+              <td>Use GoDaddy for the domain/DNS only.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="wrap">
+        <div class="section-head">
+          <h2>Data Capture</h2>
+          <p class="section-note">The safest route is to collect the minimum data needed for campaign insight.</p>
+        </div>
+        <div class="grid two">
+          <article class="panel">
+            <h3>Suggested fields</h3>
+            <div class="data-table">
+              <div class="data-item"><strong>submission_id</strong>Random record ID, not a personal identifier.</div>
+              <div class="data-item"><strong>created_at</strong>Date and time the response was submitted.</div>
+              <div class="data-item"><strong>age_range</strong>Grouped ages, not date of birth.</div>
+              <div class="data-item"><strong>area</strong>Optional broad area, if genuinely useful.</div>
+              <div class="data-item"><strong>calculator answers</strong>The slider/radio answers from the experience.</div>
+              <div class="data-item"><strong>calculated totals</strong>Yearly total, borrowed total, packs, money, hours.</div>
+              <div class="data-item"><strong>source</strong>Meta, iPad event, QR code, organic, etc.</div>
+              <div class="data-item"><strong>consent_version</strong>Which privacy wording was shown at the time.</div>
+            </div>
+          </article>
+          <article class="panel navy">
+            <h3>About submission IDs</h3>
+            <p>A submission ID is useful and should not be a GDPR problem by itself. It is just a random label for a row in the database, like a receipt number. It helps us remove duplicates, audit records, export data, and delete a row if needed.</p>
+            <br />
+            <p>The key is that we should not combine it with direct identifiers like name, email, phone number, exact date of birth, full postcode, or anything else that makes the person easy to identify.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="wrap">
+        <div class="section-head">
+          <h2>Proposed Delivery Plan</h2>
+          <p class="section-note">A rough route for getting to a working test version by next Friday, subject to team availability and sign-off timings.</p>
+        </div>
+        <div class="timeline">
+          <div class="day">
+            <b>Friday today</b>
+            <h3>Agree route</h3>
+            <p>Confirm Netlify, Supabase, GoDaddy DNS, data fields, privacy owner, and rough approval process.</p>
+          </div>
+          <div class="day">
+            <b>Tuesday</b>
+            <h3>Shape content</h3>
+            <p>Lock the user journey, copy structure, age ranges, consent wording, and analytics/source requirements. Arrange a short discussion with the right internal person about which work-owned AI tooling should be used for the build.</p>
+          </div>
+          <div class="day">
+            <b>Wednesday</b>
+            <h3>Design pass</h3>
+            <p>Apply Connor and Kelly's design/copy direction and rebuild the prototype into the campaign look.</p>
+          </div>
+          <div class="day">
+            <b>Thursday</b>
+            <h3>Connect data</h3>
+            <p>Add Supabase, secure the submission flow, set up exports, and connect the domain/deployment setup.</p>
+          </div>
+          <div class="day">
+            <b>Friday</b>
+            <h3>Test properly</h3>
+            <p>Test mobile, desktop, iPad, event use, Meta link tracking, privacy copy, and database exports.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap">
+        <div class="section-head">
+          <h2>Build Access</h2>
+          <p class="section-note">The build should use work-approved tools and accounts so the project can be handed over cleanly.</p>
+        </div>
+        <div class="grid two">
+          <article class="panel navy">
+            <h3>Why this matters</h3>
+            <p>The prototype has been useful for planning, but the live campaign should not depend on personal subscriptions or personal accounts. Work-owned access makes the project easier to maintain, review, and hand over after placement.</p>
+          </article>
+          <article class="panel">
+            <h3>Suggested next step</h3>
+            <p>Arrange a short discussion on Tuesday or Wednesday with the right internal contact about approved AI tooling. Options may include the existing Anthropic subscription, Codex, or another work-approved route. Codex currently offers two months of free company access, which could be worth considering for this build.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="wrap">
+        <div class="section-head">
+          <h2>Sources</h2>
+          <p class="section-note">Checked on 22 May 2026.</p>
+        </div>
+        <article class="panel">
+          <ul class="source-list">
+            <li><a href="https://vercel.com/pricing">Vercel pricing</a>: Pro at $20/month plus usage, developer seats listed at $20/month, with team collaboration, spend controls, and deployment features.</li>
+            <li><a href="https://www.netlify.com/pricing/">Netlify pricing</a>: Pro at $20/month for unlimited members, with deploy previews, functions, custom domains, SSL, global CDN, and usage credits.</li>
+            <li><a href="https://supabase.com/pricing">Supabase pricing</a>: database platform with free and paid project options.</li>
+            <li><a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site">GitHub Pages custom domain documentation</a>: DNS setup, custom domain settings, HTTPS, and propagation guidance.</li>
+            <li><a href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/accountability-and-governance/data-protection-impact-assessments-dpias/when-do-we-need-to-do-a-dpia/">ICO DPIA guidance</a>: when a data protection impact assessment may be needed.</li>
+            <li><a href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/lawful-basis/special-category-data/what-are-the-conditions-for-processing/">ICO special category data guidance</a>: extra care needed when processing sensitive data, including health-related information.</li>
+          </ul>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap">
+        <p>Smoking Ends Here | Prototype to Campaign Plan</p>
+        <p>Prepared for internal discussion</p>
+      </div>
+    </footer>
+  </body>
+</html>
