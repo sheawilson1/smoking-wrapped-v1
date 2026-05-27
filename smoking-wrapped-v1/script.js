@@ -1,39 +1,58 @@
 const controls = {
+  daysWeek: document.querySelector("#days-week"),
+  typicalDay: document.querySelector("#typical-day-cigarettes"),
   night: document.querySelector("#night-cigarettes"),
   nightsMonth: document.querySelector("#nights-month"),
-  borrowedPercent: document.querySelector("#borrowed-percent"),
-  weekday: document.querySelector("#weekday-cigarettes"),
+  years: document.querySelector("#years-smoking"),
 };
 
 const labels = {
+  daysWeek: document.querySelector("#days-week-value"),
+  typicalDay: document.querySelector("#typical-day-cigarettes-value"),
   night: document.querySelector("#night-cigarettes-value"),
   nightsMonth: document.querySelector("#nights-month-value"),
-  borrowedPercent: document.querySelector("#borrowed-percent-value"),
-  weekday: document.querySelector("#weekday-cigarettes-value"),
+  years: document.querySelector("#years-smoking-value"),
 };
 
 const output = {
   yearlyTotal: document.querySelector("#yearly-total"),
-  heroBorrowedTotal: document.querySelector("#hero-borrowed-total"),
-  borrowedTotal: document.querySelector("#borrowed-total"),
   packTotal: document.querySelector("#pack-total"),
   moneyTotal: document.querySelector("#money-total"),
-  minutesTotal: document.querySelector("#minutes-total"),
-  identityLine: document.querySelector("#identity-line"),
-  borrowedLine: document.querySelector("#borrowed-line"),
+  hoursTotal: document.querySelector("#hours-total"),
+  lifetimeTotal: document.querySelector("#lifetime-total"),
   shareLine: document.querySelector("#share-line"),
+  closerCopy: document.querySelector("#closer-copy"),
   packStack: document.querySelector("#pack-stack"),
 };
 
-const cigarettePrice = 0.735;
-const minutesPerCigarette = 5;
+const screens = {
+  opening: document.querySelector("#opening-screen"),
+  calculator: document.querySelector("#calculator-screen"),
+};
 
-const profiles = [
-  { night: 3, nightsMonth: 4, borrowedPercent: 85, weekday: 1, identity: "No" },
-  { night: 7, nightsMonth: 7, borrowedPercent: 60, weekday: 4, identity: "Sometimes" },
-  { night: 2, nightsMonth: 10, borrowedPercent: 95, weekday: 0, identity: "No" },
-  { night: 10, nightsMonth: 5, borrowedPercent: 45, weekday: 6, identity: "Yes" },
-];
+const copy = {
+  social: {
+    label: "Social smoker",
+    word: "social smoking",
+    years: "Years you’ve been a social smoker",
+    share: "Social smoking. It all adds up.",
+    closer: "Every time you smoke on a night out, you’re impacting your fitness and aging your skin.",
+    defaults: { daysWeek: 0, typicalDay: 0, night: 4, nightsMonth: 6, years: 3 },
+  },
+  light: {
+    label: "Light smoker",
+    word: "light smoking",
+    years: "Years you’ve been a light smoker",
+    share: "Light smoking. It all adds up.",
+    closer: "Every time you smoke, you’re damaging your health, impacting your fitness and aging your skin.",
+    defaults: { daysWeek: 3, typicalDay: 3, night: 4, nightsMonth: 4, years: 3 },
+  },
+};
+
+const cigarettePrice = 0.735;
+const cigarettesPerPack = 20;
+const minutesPerCigarette = 6;
+let activeAudience = null;
 
 function numberFormat(value) {
   return new Intl.NumberFormat("en-GB").format(Math.round(value));
@@ -47,13 +66,10 @@ function moneyFormat(value) {
   }).format(value);
 }
 
-function selectedIdentity() {
-  return document.querySelector('input[name="identity"]:checked').value;
-}
-
-function setIdentity(value) {
-  const input = document.querySelector(`input[name="identity"][value="${value}"]`);
-  if (input) input.checked = true;
+function setStatText(element, text) {
+  element.textContent = text;
+  const digitCount = text.replace(/\D/g, "").length;
+  element.dataset.digits = String(digitCount);
 }
 
 function renderPackStack(packCount) {
@@ -67,57 +83,73 @@ function renderPackStack(packCount) {
   }
 }
 
-function getIdentityLine(identity, yearlyTotal) {
-  if (yearlyTotal === 0) return "This year is clean. Keep it that way.";
-  if (identity === "Yes") return "At least your label and your lungs agree.";
-  if (identity === "Sometimes") return "Depends who's asking. The number already answered.";
-  if (yearlyTotal < 120) return "You said no. The occasional ones still added up.";
-  return "You said no. Your year says otherwise.";
+function setAudience(audience) {
+  activeAudience = audience;
+  const audienceCopy = copy[audience];
+
+  document.querySelector("#audience-label").textContent = audienceCopy.label;
+  document.querySelector("#audience-word").textContent = audienceCopy.word;
+  document.querySelector("#years-label").textContent = audienceCopy.years;
+  output.shareLine.textContent = audienceCopy.share;
+  output.closerCopy.textContent = audienceCopy.closer;
+
+  Object.entries(audienceCopy.defaults).forEach(([key, value]) => {
+    controls[key].value = value;
+  });
+
+  document.querySelectorAll(".audience-card").forEach((button) => {
+    button.classList.toggle("is-selected", button.dataset.audience === audience);
+  });
+
+  document.querySelector("#start-calculator").disabled = false;
+
+  document.querySelectorAll("[data-control]").forEach((block) => {
+    const isLightOnly = ["daysWeek", "typicalDay"].includes(block.dataset.control);
+    block.classList.toggle("is-hidden", audience === "social" && isLightOnly);
+  });
+
+  update();
 }
 
-function getBorrowedLine(borrowedTotal) {
-  if (borrowedTotal === 0) return "No borrowed cigarettes. The count still counts.";
-  if (borrowedTotal < 100) return "A few favours became a yearly total.";
-  if (borrowedTotal < 300) return "That is a lot of other people's packs.";
-  return "Your lungs do not know who bought the pack.";
+function showCalculator() {
+  if (!activeAudience) return;
+  screens.opening.classList.add("is-hidden");
+  screens.calculator.classList.remove("is-hidden");
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function getShareLine(total, borrowed) {
-  if (total === 0) return "Next year, keep the total at zero.";
-  if (borrowed / total > 0.65) return "You do not have to buy a pack to be a smoker.";
-  if (total > 700) return "Only on nights out can still become a habit.";
-  return "The habit you do not count, counted.";
+function showOpening() {
+  screens.calculator.classList.add("is-hidden");
+  screens.opening.classList.remove("is-hidden");
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function update() {
+  const daysWeek = Number(controls.daysWeek.value);
+  const typicalDay = Number(controls.typicalDay.value);
   const night = Number(controls.night.value);
   const nightsMonth = Number(controls.nightsMonth.value);
-  const borrowedPercent = Number(controls.borrowedPercent.value);
-  const weekday = Number(controls.weekday.value);
+  const years = Number(controls.years.value);
 
+  labels.daysWeek.textContent = daysWeek;
+  labels.typicalDay.textContent = typicalDay;
   labels.night.textContent = night;
   labels.nightsMonth.textContent = nightsMonth;
-  labels.borrowedPercent.textContent = `${borrowedPercent}%`;
-  labels.weekday.textContent = weekday;
+  labels.years.textContent = years;
 
   const yearlyFromNights = night * nightsMonth * 12;
-  const yearlyFromWeekdays = weekday * 52;
-  const yearlyTotal = yearlyFromNights + yearlyFromWeekdays;
-  const borrowedTotal = yearlyTotal * (borrowedPercent / 100);
-  const packTotal = yearlyTotal / 20;
+  const yearlyFromDays = activeAudience === "light" ? daysWeek * typicalDay * 52 : 0;
+  const yearlyTotal = yearlyFromNights + yearlyFromDays;
+  const packTotal = yearlyTotal / cigarettesPerPack;
   const moneyTotal = yearlyTotal * cigarettePrice;
   const hoursTotal = (yearlyTotal * minutesPerCigarette) / 60;
-  const identity = selectedIdentity();
+  const lifetimeTotal = yearlyTotal * years;
 
-  output.yearlyTotal.textContent = numberFormat(yearlyTotal);
-  output.heroBorrowedTotal.textContent = numberFormat(borrowedTotal);
-  output.borrowedTotal.textContent = numberFormat(borrowedTotal);
+  setStatText(output.yearlyTotal, numberFormat(yearlyTotal));
   output.packTotal.textContent = numberFormat(packTotal);
-  output.moneyTotal.textContent = moneyFormat(moneyTotal);
-  output.minutesTotal.textContent = numberFormat(hoursTotal);
-  output.identityLine.textContent = getIdentityLine(identity, yearlyTotal);
-  output.borrowedLine.textContent = getBorrowedLine(borrowedTotal);
-  output.shareLine.textContent = getShareLine(yearlyTotal, borrowedTotal);
+  setStatText(output.moneyTotal, moneyFormat(moneyTotal));
+  setStatText(output.hoursTotal, numberFormat(hoursTotal));
+  setStatText(output.lifetimeTotal, numberFormat(lifetimeTotal));
   renderPackStack(packTotal);
 }
 
@@ -125,19 +157,15 @@ Object.values(controls).forEach((control) => {
   control.addEventListener("input", update);
 });
 
-document.querySelectorAll('input[name="identity"]').forEach((input) => {
-  input.addEventListener("change", update);
+document.querySelectorAll(".audience-card").forEach((button) => {
+  button.addEventListener("click", () => setAudience(button.dataset.audience));
 });
 
-document.querySelector("#randomise").addEventListener("click", () => {
-  const profile = profiles[Math.floor(Math.random() * profiles.length)];
-  controls.night.value = profile.night;
-  controls.nightsMonth.value = profile.nightsMonth;
-  controls.borrowedPercent.value = profile.borrowedPercent;
-  controls.weekday.value = profile.weekday;
-  setIdentity(profile.identity);
-  update();
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
+document.querySelector("#start-calculator").addEventListener("click", showCalculator);
+document.querySelector("#change-audience").addEventListener("click", showOpening);
 
-update();
+setAudience("social");
+showOpening();
+document.querySelectorAll(".audience-card").forEach((button) => button.classList.remove("is-selected"));
+document.querySelector("#start-calculator").disabled = true;
+activeAudience = null;
